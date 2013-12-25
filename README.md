@@ -1,4 +1,6 @@
 RushRanker
+Morgan Krey
+12/24/13
 ==========
 
-Django and other for rushranker
+Django, HTML, CSS, etc. for rushranker
