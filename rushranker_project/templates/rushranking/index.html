@@ -11,9 +11,18 @@
 
    <body>
       <h1>Rushranker</h1>
-      look at this <strong>{{ boldmessage }}</strong> <br />
+      {% if rushees %}
+         <ol>
+            {% for rushee in rushees %}
+            <li><a href="/rushranking/rushee/{{ rushee.url }}">{{ rushee.firstName }} {{rushee.lastName}}</a>, {{rushee.score}} </li>
+            {% endfor %}
+         </ol>
+         {% else %}
+            <strong>No rushees in the list!</strong>
+         {% endif %}
 
-      <a href="/rushranking/about/">About</a> <br />
+      <a href="/rushranking/about/">About</a> <br>
+      <a href="/rushranking/add_rushee">Add a new rushee</a><br>
       <img src="{% static "Dag.png" %}" alt="Picture of Dag" />
    </body>
 

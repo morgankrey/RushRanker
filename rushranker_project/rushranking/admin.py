@@ -1,6 +1,12 @@
 from django.contrib import admin
 from rushranking.models import Brother,Rushee,Comment
 
+class rusheeAdmin(admin.ModelAdmin):
+   list_display = ('firstName','preferredName','lastName','hometown','highSchool','grade','score')
+
+class commentAdmin(admin.ModelAdmin):
+   list_display = ('rushee','brotherInitials','text')
+
 admin.site.register(Brother)
-admin.site.register(Rushee)
-admin.site.register(Comment)
+admin.site.register(Rushee,rusheeAdmin)
+admin.site.register(Comment,commentAdmin)
