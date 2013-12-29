@@ -1,31 +1,32 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <title>Rushranking</title>
-   </head>
+{% extends 'rushranking/base.html'%}
 
-   <body>
-      <h1>{{ rushee.firstName }} {{ rushee.lastName }}</h1>
-      {% if rushee %}
-         First Name: {{ rushee.firstName }} ({{ rushee.preferredName }})</br>
-         Last Name: {{ rushee.lastName }} </br>
-         Hometown: {{ rushee.hometown }} </br>
-         High School: {{ rushee.highSchool }} </br>
-         Grade: {{ rushee.grade }} </br>
+{% load static %}
 
-         {% if comments %}
-         <ul>
-            {% for comment in comments %}
-               <li>{{ comment.brotherInitials }}: {{ comment.text }}</li>
-            {% endfor %}
-         </ul>
-         {% else %}
-            The specified rushee {{ rushee.firstName }} {{ rushee.lastName }} has no comments
-         {% endif %}
-         <a href="/rushranking/add_comment/{{ rushee.id }}">Add Comment</a> <br>
-      {% else %}
-         There is no rushee with id {{ rushee_id }}.
+{% block title%}{{rushee.firstName}} {{rushee.lastName}}{% endblock %}
+
+{% block body_block %}
+   <h1>{{ rushee.firstName }} {{ rushee.lastName }}</h1>
+   {% if rushee %}
+      {% if rushee.picture %}
+         <a> <img src="{{rushee.picture.url }}" height="180"> </a></br>
       {% endif %}
-   </body>
-</html>
+      First Name: {{ rushee.firstName }} ({{ rushee.preferredName }})</br>
+      Last Name: {{ rushee.lastName }} </br>
+      Hometown: {{ rushee.hometown }} </br>
+      High School: {{ rushee.highSchool }} </br>
+      Grade: {{ rushee.grade }} </br>
+
+      {% if comments %}
+      <ul>
+         {% for comment in comments %}
+            <li>{{ comment.brotherInitials }}: {{ comment.text }}</li>
+         {% endfor %}
+      </ul>
+      {% else %}
+         The specified rushee {{ rushee.firstName }} {{ rushee.lastName }} has no comments
+      {% endif %}
+      <a href="/rushranking/add_comment/{{ rushee.id }}">Add Comment</a> <br>
+   {% else %}
+      There is no rushee with id {{ rushee_id }}.
+   {% endif %}
+{% endblock %}

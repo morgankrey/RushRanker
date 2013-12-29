@@ -16,6 +16,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+LOGIN_URL = '/rushranking/login/'
+
 MANAGERS = ADMINS
 
 DATABASES = {

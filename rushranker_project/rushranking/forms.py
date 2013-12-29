@@ -1,5 +1,7 @@
 from django import forms
-from rushranking.models import Brother,Rushee,Comment
+from rushranker_project import settings
+from rushranking.models import Brother,Rushee,Comment,UserProfile
+from django.contrib.auth.models import User
 
 class RusheeForm(forms.ModelForm):
    FRESHMAN='FR'
@@ -13,6 +15,7 @@ class RusheeForm(forms.ModelForm):
    highSchool = forms.CharField(max_length=128,help_text = "High School: ",required=False)
    grade = forms.ChoiceField(help_text = "Grade: ",choices=GRADE_CHOICES)
    score = forms.IntegerField(widget=forms.HiddenInput(), initial = 0)
+   picture = forms.ImageField(required=False)
 
    class Meta:
       model = Rushee
@@ -24,3 +27,15 @@ class CommentForm(forms.ModelForm):
 
    text = forms.CharField(max_length=20,help_text="Comment: ")
    brotherInitials = forms.CharField(max_length=3,help_text="Brother Initials: ")
+
+class UserForm(forms.ModelForm):
+   password = forms.CharField(widget=forms.PasswordInput())
+
+   class Meta:
+      model = User
+      fields = ('username','first_name', 'last_name', 'email', 'password')
+
+class UserProfileForm(forms.ModelForm):
+   class Meta:
+      model = UserProfile
+      fields = {}

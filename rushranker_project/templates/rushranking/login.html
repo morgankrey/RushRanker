@@ -1,26 +1,25 @@
 <!doctype html>
-
-{% load static%}
-
 <html lang="en">
-
    <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="{% static 'css/bootstrap-fluid-adj.css' %}">
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" media="screen">
       <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
-      <title>About Rushranker</title>
+      <title>Rushranking</title>
    </head>
-
    <body>
-      <h1>About</h1>
-      This is a site for Duke KA to rate rushees
-      <strong>{{ strongmessage }}</strong> <br />
+      <h1>Login to Rushranker</h1>
 
-      <a href="/rushranking/">Back to Index</a> <br />
-      <img src="{% static "chance.jpg" %}" alt="Picture of Chance" />
+      <form id="login_form" method="post" action="/rushranking/login/">
+         {% csrf_token %}
+         Username: <input type="text" name="username" value="{{ username }}" size="50" />
+         <<br>
+         Password: <input type="password" name="password" value="" size="50" />
+         <br>
+
+         <input type="submit" value="Log In" />
+      </form>
       <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
    </body>
-
 </html>

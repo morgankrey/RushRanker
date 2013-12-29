@@ -1,9 +1,12 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from rushranking.models import Brother,Rushee,Comment
-from rushranking.forms import RusheeForm,CommentForm
+from rushranking.forms import RusheeForm,CommentForm,UserForm,UserProfileForm
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
    #request context of the request
    #context contains information about client, status, etc.
@@ -21,12 +24,13 @@ def index(request):
    #note that first parameter is template we want to use
    return render_to_response('rushranking/index.html',context_dict,context)
 
-
+@login_required
 def about(request):
    context=RequestContext(request)
    context_dict = {'strongmessage' : "Rush started yesterday"}
    return render_to_response('rushranking/about.html',context_dict,context)
 
+@login_required
 def rushee(request,rushee_id):
    context=RequestContext(request)
    context_dict={'rushee_id':rushee_id}
@@ -54,14 +58,18 @@ def rushee(request,rushee_id):
 
    return render_to_response('rushranking/rushee.html',context_dict, context)
 
+@login_required
 def add_rushee(request):
    context = RequestContext(request)
    if request.method=='POST':
-      form=RusheeForm(request.POST)
+      form=RusheeForm(request.POST, request.FILES)
 
       if form.is_valid():
-         form.save(commit=True)
-         return index(request)
+         r = form.save(commit=False)
+         r.picture = request.FILES['picture']
+         r.save()
+
+         return rushee(request,r.id)
 
       else:
          print form.errors
@@ -70,6 +78,7 @@ def add_rushee(request):
 
    return render_to_response('rushranking/add_rushee.html',{'form':form},context)
 
+@login_required
 def add_comment(request,rushee_id):
    context=RequestContext(request)
    context_dict={'rushee_id':rushee_id}
@@ -97,6 +106,62 @@ def add_comment(request,rushee_id):
       form=CommentForm()
 
    return render_to_response('rushranking/add_comment.html',{'rushee_id':rushee_id,'form':form},context)
+
+@login_required
+def register(request):
+   context=RequestContext(request)
+   registered = False
+
+   if request.method=='POST':
+      user_form = UserForm(data=request.POST)
+      profile_form=UserProfileForm(data=request.POST)
+
+      if user_form.is_valid():
+         user = user_form.save()
+         user.set_password(user.password)
+         user.save()
+
+         profile = profile_form.save(commit=False)
+         profile.user = user
+         profile.save()
+
+         registered=True
+      else:
+         print user_form.errors, profile_form.errors
+
+   else:
+      user_form=UserForm()
+      profile_form=UserProfileForm()
+
+   return render_to_response('rushranking/register.html',{'user_form':user_form,'profile_form':profile_form, 'registered':registered},context)
+
+def user_login(request):
+   context=RequestContext(request)
+   if request.method=='POST':
+      username=request.POST['username']
+      password=request.POST['password']
+
+      user = authenticate(username=username,password=password)
+
+      if user is not None:
+         if user.is_active:
+            login(request,user)
+            return HttpResponseRedirect('/rushranking/')
+         else:
+            return HttpResponse('Your account was disabled')
+      else:
+         print "Invalid login details: {0} {1}".format(username,password)
+         return HttpResponse("Invalid login details supplied")
+
+   else:
+      return render_to_response('rushranking/login.html',{},context)
+
+@login_required
+def user_logout(request):
+   logout(request)
+   return HttpResponseRedirect('/rushranking/')
+
+
 
 
 

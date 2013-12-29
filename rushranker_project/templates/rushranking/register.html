@@ -1,26 +1,30 @@
 <!doctype html>
-
-{% load static%}
-
 <html lang="en">
-
    <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="{% static 'css/bootstrap-fluid-adj.css' %}">
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" media="screen">
       <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
-      <title>About Rushranker</title>
+      <title>Rushranking</title>
    </head>
-
    <body>
-      <h1>About</h1>
-      This is a site for Duke KA to rate rushees
-      <strong>{{ strongmessage }}</strong> <br />
+      <h1>Register</h1>
 
-      <a href="/rushranking/">Back to Index</a> <br />
-      <img src="{% static "chance.jpg" %}" alt="Picture of Chance" />
+      {% if registered %}
+      Thank you for registering.<br>
+      <a href="/rushranking/">Return to homepage</a>
+      {% else %}
+      <strong>Register here</strong>
+      <form id="user_form" method="post" action="/rushranking/register/" enctype="multipart/form-data">
+         {% csrf_token %}
+
+         {{ user_form.as_p }}
+         {{ profile_form.as_p }}
+
+         <input type="submit" name="submit" value="Register" />
+      </form>
+      {% endif %}
       <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
    </body>
-
 </html>

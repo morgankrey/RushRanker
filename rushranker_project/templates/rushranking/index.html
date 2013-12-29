@@ -1,29 +1,23 @@
-<!doctype html>
+{% extends 'rushranking/base.html'%}
 
 {% load static%}
 
-<html lang="en">
+{% block title%}Rushranker{% endblock %}
 
-   <head>
-      <meta charset="UTF-8">
-      <title>Rushranker</title>
-   </head>
-
-   <body>
-      <h1>Rushranker</h1>
-      {% if rushees %}
-         <ol>
-            {% for rushee in rushees %}
-            <li><a href="/rushranking/rushee/{{ rushee.url }}">{{ rushee.firstName }} {{rushee.lastName}}</a>, {{rushee.score}} </li>
-            {% endfor %}
-         </ol>
-         {% else %}
-            <strong>No rushees in the list!</strong>
-         {% endif %}
-
-      <a href="/rushranking/about/">About</a> <br>
-      <a href="/rushranking/add_rushee">Add a new rushee</a><br>
-      <img src="{% static "Dag.png" %}" alt="Picture of Dag" />
-   </body>
-
-</html>
+{% block body_block %}
+   {% if user.is_authenticated %}
+   <h1>Welcome, {{user.username}}</h1>
+   {% else %}
+   <h1>Rushranker</h1>
+   {% endif %}
+   {% if rushees %}
+      <ol>
+         {% for rushee in rushees %}
+         <li><a href="/rushranking/rushee/{{ rushee.url }}">{{ rushee.firstName }} {{rushee.lastName}}</a>, {{rushee.score}} </li>
+         {% endfor %}
+      </ol>
+      {% else %}
+         <strong>No rushees in the list!</strong>
+      {% endif %}
+   <img src="{% static "Dag.png" %}" alt="Picture of Dag" />
+{% endblock %}

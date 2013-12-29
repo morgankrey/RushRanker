@@ -1,28 +1,24 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <title>Rushranking</title>
-   </head>
+{% extends 'rushranking/base.html'%}
 
-   <body>
-      <h1>Add a Comment</h1>
-      <form id="rushee_form" method="post" action="/rushranking/add_comment/{{ rushee_id }}">
+{% block title%}Add Comment for {{rushee.firstName}} {{rushee.lastName}}{% endblock %}
 
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-               {{ hidden }}
-            {% endfor %}
+{% block body_block %}
+   <h1>Add a Comment</h1>
+   <form id="rushee_form" method="post" action="/rushranking/add_comment/{{ rushee_id }}">
 
-            {% for field in form.visible_fields %}
-               {{ field.errors }}
-               {{ field.help_text }}
-               {{ field }}
-               </br>
-            {% endfor %}
+         {% csrf_token %}
+         {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+         {% endfor %}
 
-            <<input type="submit" name="submit" value = "Create Comment" />
+         {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
+            </br>
+         {% endfor %}
 
-      </form>
-   </body>
-</html>
+         <<input type="submit" name="submit" value = "Create Comment" />
+
+   </form>
+{% endblock %}
