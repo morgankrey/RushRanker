@@ -2,12 +2,12 @@
 
 {% load static %}
 
-{% block title%}Add a Rushee{% endblock %}
+{% block title%}Edit{% endblock %}
 
 {% block body_block %}
 <div class="hero-unit">
-   <h1>Add a Rushee</h1>
-   <form id="rushee_form" method="post" action="/rushranking/add_rushee/" enctype="multipart/form-data">
+   <h1>Edit</h1>
+   <form id="rushee_form" method="post" action="/rushranking/edit_rushee/{{ rushee_id}}" enctype="multipart/form-data">
 
          {% csrf_token %}
          {% for hidden in form.hidden_fields %}
@@ -21,7 +21,7 @@
             </br>
          {% endfor %}
 
-         <<input type="submit" name="submit" value = "Create Rushee" />
+         <input type="submit" name="submit" value = "Submit" />
    </form>
 </div>
 {% endblock %}

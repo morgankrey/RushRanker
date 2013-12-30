@@ -17,6 +17,7 @@ ADMINS = (
 )
 
 LOGIN_URL = '/rushranking/login/'
+LOGIN_REDIRECT_URL = '/rushranking/'
 
 MANAGERS = ADMINS
 
@@ -133,6 +134,11 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'rushranking',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'rushranking.context_processors.default',
+    'django.contrib.auth.context_processors.auth',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

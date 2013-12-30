@@ -5,7 +5,7 @@ class rusheeAdmin(admin.ModelAdmin):
    list_display = ('firstName','preferredName','lastName','hometown','highSchool','grade','score')
 
 class commentAdmin(admin.ModelAdmin):
-   list_display = ('rushee','brotherInitials','text')
+   list_display = ('rushee','brother','text')
 
 admin.site.register(UserProfile)
 admin.site.register(Brother)

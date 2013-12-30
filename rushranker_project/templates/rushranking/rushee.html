@@ -19,13 +19,15 @@
       {% if comments %}
       <ul>
          {% for comment in comments %}
-            <li>{{ comment.brotherInitials }}: {{ comment.text }}</li>
+            <li>{{ comment.brother.first_name }} {{ comment.brother.last_name }}: {{ comment.text }}</li>
          {% endfor %}
       </ul>
       {% else %}
          The specified rushee {{ rushee.firstName }} {{ rushee.lastName }} has no comments
       {% endif %}
+      <br>
       <a href="/rushranking/add_comment/{{ rushee.id }}">Add Comment</a> <br>
+      <a href="/rushranking/edit_rushee/{{ rushee.id }}">Edit</a>
    {% else %}
       There is no rushee with id {{ rushee_id }}.
    {% endif %}

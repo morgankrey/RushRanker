@@ -1,10 +1,11 @@
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response,get_object_or_404
 from rushranking.models import Brother,Rushee,Comment
-from rushranking.forms import RusheeForm,CommentForm,UserForm,UserProfileForm
+from rushranking.forms import RusheeForm,CommentForm,UserForm,UserProfileForm,VoteForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+import random
 
 @login_required
 def index(request):
@@ -22,13 +23,15 @@ def index(request):
    #Return a rendered response to send to the client
    #Make use of a shortcut function to simplify
    #note that first parameter is template we want to use
-   return render_to_response('rushranking/index.html',context_dict,context)
+   context_instance=RequestContext(request)
+   return render_to_response('rushranking/index.html',locals(),context_instance)
 
 @login_required
 def about(request):
    context=RequestContext(request)
    context_dict = {'strongmessage' : "Rush started yesterday"}
-   return render_to_response('rushranking/about.html',context_dict,context)
+   context_instance=RequestContext(request)
+   return render_to_response('rushranking/about.html',locals(),context_instance)
 
 @login_required
 def rushee(request,rushee_id):
@@ -56,7 +59,38 @@ def rushee(request,rushee_id):
       # Don't do anything - the template displays the "no rushee" message for us.
       pass
 
-   return render_to_response('rushranking/rushee.html',context_dict, context)
+   context_instance=RequestContext(request)
+   return render_to_response('rushranking/rushee.html',locals(),context_instance)
+
+@login_required
+def game(request):
+   context=RequestContext(request)
+   rushee_list=Rushee.objects.all()
+   rushee_1=rushee_list[random.randint(0,len(rushee_list)-1)]
+   rushee_2=rushee_list[random.randint(0,len(rushee_list)-1)]
+   while(rushee_1.id == rushee_2.id):
+      rushee_2=rushee_list[random.randint(0,len(rushee_list)-1)]
+   context_dict={'rushee_1':rushee_1}
+   context_dict['rushee_2']=rushee_2
+
+   return render_to_response('rushranking/game.html',locals(),context)
+
+def vote(request,rushee_id):
+   context=RequestContext(request)
+   if request.method=='POST':
+      form=VoteForm(request.POST)
+      if form.is_valid():
+         r=Rushee.objects.get(id=rushee_id)
+         r.score+=1
+         r.save()
+         return game(request)
+      else:
+         print form.errors
+   else:
+      form=VoteForm
+
+   context_dict={'form':form}
+   return render_to_response('rushranking/game.html',locals(),context_instance)
 
 @login_required
 def add_rushee(request):
@@ -66,7 +100,8 @@ def add_rushee(request):
 
       if form.is_valid():
          r = form.save(commit=False)
-         r.picture = request.FILES['picture']
+         if 'picture' in request.FILES:
+            r.picture = request.FILES['picture']
          r.save()
 
          return rushee(request,r.id)
@@ -76,7 +111,29 @@ def add_rushee(request):
    else:
       form = RusheeForm()
 
-   return render_to_response('rushranking/add_rushee.html',{'form':form},context)
+   context_instance=RequestContext(request)
+   context_dict={'form':form}
+
+   return render_to_response('rushranking/add_rushee.html',locals(),context_instance)
+
+def edit_rushee(request,rushee_id):
+   context=RequestContext(request)
+   context_dict={'rushee_id':rushee_id}
+   rusheeObj=Rushee.objects.get(id=rushee_id)
+   if request.POST:
+      form = RusheeForm(request.POST, instance=rusheeObj)
+      if form.is_valid():
+         form.save()
+         return rushee(request,rushee_id)
+      else:
+         print form.errors
+   else:
+      form=RusheeForm(instance=rusheeObj)
+
+   context_dict['form']=form
+   context_dict['rushee']=rusheeObj
+   return render_to_response('rushranking/edit_rushee.html',locals(),context)
+
 
 @login_required
 def add_comment(request,rushee_id):
@@ -97,6 +154,7 @@ def add_comment(request,rushee_id):
       if form.is_valid():
          comment = form.save(commit=False)
          comment.rushee=rusheeObj
+         comment.brother=request.user
          comment.save()
          return rushee(request,rushee_id)
 
@@ -105,7 +163,9 @@ def add_comment(request,rushee_id):
    else:
       form=CommentForm()
 
-   return render_to_response('rushranking/add_comment.html',{'rushee_id':rushee_id,'form':form},context)
+   context_instance=RequestContext(request)
+   context_dict={'rushee_id':rushee_id,'form':form}
+   return render_to_response('rushranking/add_comment.html',locals(),context_instance)
 
 @login_required
 def register(request):
@@ -133,10 +193,13 @@ def register(request):
       user_form=UserForm()
       profile_form=UserProfileForm()
 
-   return render_to_response('rushranking/register.html',{'user_form':user_form,'profile_form':profile_form, 'registered':registered},context)
+   context_instance=RequestContext(request)
+   context_dict={'user_form':user_form,'profile_form':profile_form, 'registered':registered}
+   return render_to_response('rushranking/register.html',locals(),context_instance)
 
 def user_login(request):
    context=RequestContext(request)
+
    if request.method=='POST':
       username=request.POST['username']
       password=request.POST['password']
@@ -154,7 +217,8 @@ def user_login(request):
          return HttpResponse("Invalid login details supplied")
 
    else:
-      return render_to_response('rushranking/login.html',{},context)
+      context_instance=RequestContext(request)
+      return render_to_response('rushranking/login.html',locals(),context_instance)
 
 @login_required
 def user_logout(request):

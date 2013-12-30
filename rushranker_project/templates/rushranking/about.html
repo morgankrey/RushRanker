@@ -1,18 +1,10 @@
-<!doctype html>
+{% extends 'rushranking/base.html'%}
 
 {% load static%}
 
-<html lang="en">
+{% block title%}About Rushranker{% endblock %}
 
-   <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="{% static 'css/bootstrap-fluid-adj.css' %}">
-      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" media="screen">
-      <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
-      <title>About Rushranker</title>
-   </head>
-
-   <body>
+{% block body_block %}
       <h1>About</h1>
       This is a site for Duke KA to rate rushees
       <strong>{{ strongmessage }}</strong> <br />
@@ -21,6 +13,4 @@
       <img src="{% static "chance.jpg" %}" alt="Picture of Chance" />
       <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
-   </body>
-
-</html>
+{% endblock %}

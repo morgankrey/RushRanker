@@ -21,12 +21,11 @@ class RusheeForm(forms.ModelForm):
       model = Rushee
 
 class CommentForm(forms.ModelForm):
+   text = forms.CharField(max_length=500,help_text="Comment: ")
+
    class Meta:
       model = Comment
-      fields = ('text','brotherInitials')
-
-   text = forms.CharField(max_length=20,help_text="Comment: ")
-   brotherInitials = forms.CharField(max_length=3,help_text="Brother Initials: ")
+      fields = ('text',)
 
 class UserForm(forms.ModelForm):
    password = forms.CharField(widget=forms.PasswordInput())
@@ -39,3 +38,8 @@ class UserProfileForm(forms.ModelForm):
    class Meta:
       model = UserProfile
       fields = {}
+
+class VoteForm(forms.ModelForm):
+   class Meta:
+      model=Rushee
+      fields={}

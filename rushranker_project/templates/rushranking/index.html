@@ -5,19 +5,21 @@
 {% block title%}Rushranker{% endblock %}
 
 {% block body_block %}
+<div class="hero-unit">
    {% if user.is_authenticated %}
    <h1>Welcome, {{user.username}}</h1>
    {% else %}
    <h1>Rushranker</h1>
    {% endif %}
-   {% if rushees %}
+   </br><br><br>
+   {% if comments %}
       <ol>
-         {% for rushee in rushees %}
-         <li><a href="/rushranking/rushee/{{ rushee.url }}">{{ rushee.firstName }} {{rushee.lastName}}</a>, {{rushee.score}} </li>
+         {% for comment in comments %}
+         <li>{{ comment.brother.first_name }} {{ comment.brother.last_name }} on {{ comment.rushee.firstName}} {{ comment.rushee.lastName }}: {{ comment.text }} ({{ comment.time }})</li>
          {% endfor %}
       </ol>
       {% else %}
-         <strong>No rushees in the list!</strong>
+         <strong>No comments</strong>
       {% endif %}
-   <img src="{% static "Dag.png" %}" alt="Picture of Dag" />
+</div>
 {% endblock %}

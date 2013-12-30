@@ -1,0 +1,45 @@
+{% extends 'rushranking/base.html'%}
+
+{% load static %}
+
+{% block title%}Rushranker{% endblock %}
+
+{% block body_block %}
+   <div class="hero-unit">
+      <h1 class="span12 centered-text">Rank</h1>
+      <div class="row-fluid" height="400px" margin-top="10px">
+         <div class="span6">
+            {% if rushee_1 %}
+               <div class="thumbnail" >
+                  {% if rushee_1.picture %}
+                  <img src="{{ rushee_1.picture.url }}" alt="">
+                  {% endif %}
+                  <h5>{{ rushee_1.firstName }} {{ rushee_1.lastName }}</h5>
+                  <form action="/rushranking/vote/{{ rushee_1.id }}/" name="vote" method="post">
+                  {% csrf_token%}
+                  <button class="btn btn-primary">Vote</button>
+                  </form>
+               </div>
+            {% else %}
+               There is no rushee with id {{ rushee_1.id }}.
+            {% endif %}
+         </div>
+         <div class="span6">
+            {% if rushee_2 %}
+               <div class="thumbnail">
+                  {% if rushee_2.picture %}
+                  <img src="{{ rushee_2.picture.url }}" alt="">
+                  {% endif %}
+                  <h5>{{ rushee_2.firstName }} {{ rushee_2.lastName }}</h5>
+                  <form action="/rushranking/vote/{{ rushee_2.id }}/" name="vote" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-primary">Vote</button>
+                  </form>
+               </div>
+            {% else %}
+               There is no rushee with id {{ rushee_2.id }}.
+            {% endif %}
+         </div>
+      </div>
+   </div>
+{% endblock %}

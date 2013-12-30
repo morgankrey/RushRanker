@@ -41,8 +41,9 @@ class Rushee(models.Model):
 
 class Comment(models.Model):
    text = models.CharField(max_length=1000)
-   brotherInitials = models.CharField(max_length=3)
+   brother = models.ForeignKey(User)
    rushee = models.ForeignKey(Rushee)
+   time = models.DateTimeField(auto_now_add=True)
 
    def __unicode__(self):
       return self.text
