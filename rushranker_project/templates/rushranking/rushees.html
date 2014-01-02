@@ -1,0 +1,29 @@
+{% extends 'rushranking/base.html'%}
+
+{% load static %}
+
+{% block title%}Rushranker{% endblock %}
+
+{% block body_block %}
+   <h1 class="span12" margin-top="10px">Rushees</h1>
+   {% if rushee_list %}
+      <div class="row-fluid" id="rushee-row">
+         <ul>
+         {% for r in rushee_list %}
+            <li id="rushee-list-entry">
+               <div class="thumbnail span4" >
+                  {% if r.picture %}
+                     <a href="/rushranking/rushee/{{ r.id }}">
+                     <img src="{{ r.picture.url }}" alt="">
+                     </a>
+                  {% endif %}
+                  <a href="/rushranking/rushee/{{ r.id }}">
+                  <h5>{{ r.firstName }} {{ r.lastName }}</h5>
+                  </a>
+               </div>
+            </li>
+         {% endfor %}
+         </ul>
+      </div>
+   {% endif %}
+{% endblock %}

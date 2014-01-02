@@ -5,21 +5,52 @@
 {% block title%}Rushranker{% endblock %}
 
 {% block body_block %}
-<div class="hero-unit">
-   {% if user.is_authenticated %}
-   <h1>Welcome, {{user.username}}</h1>
-   {% else %}
-   <h1>Rushranker</h1>
-   {% endif %}
-   </br><br><br>
-   {% if comments %}
-      <ol>
-         {% for comment in comments %}
-         <li>{{ comment.brother.first_name }} {{ comment.brother.last_name }} on {{ comment.rushee.firstName}} {{ comment.rushee.lastName }}: {{ comment.text }} ({{ comment.time }})</li>
-         {% endfor %}
-      </ol>
+<div class="hero-unit" id="index-hero">
+   <div class="span9">
+      {% if user.is_authenticated %}
+         <h1>Welcome, {{user.first_name}}</h1>
+      {% else %}
+         <h1>Rushranker</h1>
+      {% endif %}
+      </br><br>
+   </div>
+</div>
+<div class="row-fluid">
+   <div class="span7">
+   <h3>Recent Comments</h3>
+      {% if comments %}
+         <ul>
+            {% for comment in comments %}
+               <li>{{ comment.brother.first_name }} {{ comment.brother.last_name }} on {{ comment.rushee.firstName}} {{ comment.rushee.lastName }}: {{ comment.text }} ({{ comment.time }})</li>
+            {% endfor %}
+         </ul>
       {% else %}
          <strong>No comments</strong>
       {% endif %}
+   </div>
+   <div class="span5">
+      <!--
+      <h3>Top 5 Rushees</h3>
+      {% if topFive %}
+      <ul>
+         {% for r in topFive%}
+            <li><a href="/rushranking/rushee/{{ r.id }}">{{ r.firstName}} {{r.lastName}}</a> - {{r.score}}</li>
+         {% endfor %}
+      </ul>
+      {% else %}
+      Top Five doesn't exist!
+      {% endif %}
+      -->
+      <h3>Horses</h3>
+      {% if recentHorses %}
+      <ul>
+         {% for b in recentHorses %}
+            <li>{{ b.user.first_name }} {{ b.user.last_name }} horsed <a href="/rushranking/rushee/{{ b.horse.id }}">{{b.horse.firstName}} {{b.horse.lastName}}</a></li>
+         {% endfor %}
+      </ul>
+      {% else %}
+      Top Five doesn't exist!
+      {% endif %}
+   </div>
 </div>
 {% endblock %}

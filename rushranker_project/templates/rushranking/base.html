@@ -33,6 +33,7 @@
                   </ul>
                   <ul class="nav">
                      <li><a href="/rushranking/game">Rank</a></li>
+                     <li><a href="/rushranking/rushees">Rushees</a></li>
                   </ul>
                </div>
             </div>
@@ -43,15 +44,19 @@
          <div class="row-fluid">
             <div class="span3">
                <div class="well sidebar-nav">
-                  <h1>All Rushees</h1>
-                  {% if rushees %}
-                  <ul>
-                     {% for r in rushees%}
-                        <li><a href="/rushranking/rushee/{{ r.id }}">{{ r.firstName}} {{r.lastName}}</a> - {{r.score}}</li>
-                     {% endfor %}
-                  </ul>
+                  {% if user.is_authenticated %}
+                     <h1>All Rushees</h1>
+                     {% if rushees %}
+                     <ul>
+                        {% for r in rushees%}
+                           <li><a href="/rushranking/rushee/{{ r.id }}">{{ r.firstName}} {{r.lastName}}</a> - {{r.score}}</li>
+                        {% endfor %}
+                     </ul>
+                     {% else %}
+                        <strong>There are no rushees!</strong>
+                     {% endif %}
                   {% else %}
-                     <strong>There are no rushees!</strong>
+                     <h1>All Rushees</h1>
                   {% endif %}
                </div>
             </div>

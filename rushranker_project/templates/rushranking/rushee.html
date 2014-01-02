@@ -5,30 +5,90 @@
 {% block title%}{{rushee.firstName}} {{rushee.lastName}}{% endblock %}
 
 {% block body_block %}
-   <h1>{{ rushee.firstName }} {{ rushee.lastName }}</h1>
-   {% if rushee %}
-      {% if rushee.picture %}
-         <a> <img src="{{rushee.picture.url }}" height="180"> </a></br>
-      {% endif %}
-      First Name: {{ rushee.firstName }} ({{ rushee.preferredName }})</br>
-      Last Name: {{ rushee.lastName }} </br>
-      Hometown: {{ rushee.hometown }} </br>
-      High School: {{ rushee.highSchool }} </br>
-      Grade: {{ rushee.grade }} </br>
+   <div class="hero-unit" height="10%">
+      <div class="row-fluid">
+         <div class="span8">
+            <h1>{{ rushee.firstName }} {{ rushee.lastName }}</h1>
+         </div>
+         <div class="span4">
+            <button class="btn btn-secondary btn-large">
+               <a href="/rushranking/edit_rushee/{{ rushee.id }}">Edit</a>
+            </button>
+            <form id="horse_form" method="post" action="/rushranking/horse/{{ rushee_id }}/">
+               {% csrf_token %}
+               <input type="submit" name="submit" value = "Horse" class="btn btn-secondary btn-large"/>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="row-fluid">
+      <div class="span12">
+         {% if canHorse %}
+            <h4>You horsed {{rushee.firstName}} {{rushee.lastName}}</h4>
+         {%else%}
+            {% if cameFromRushee %}
+            {% else %}
+               <h4>{{alert}}</h4>
+            {% endif %}
+         {% endif %}
+      </div>
+   </div>
+   <div class="row-fluid">
+      <div class="span7">
+         {% if rushee %}
+         <h4>Information</h4>
+            {% if rushee.picture %}
+               <div class="span6">
+                  <div class="thumbnail">
+                     <a> <img src="{{rushee.picture.url }}"> </a>
+                  </div>
+               </div>
+            {% endif %}
+            {% if rushee.preferredName %}
+               First Name: {{ rushee.firstName }} ({{ rushee.preferredName }})<br>
+            {% else %}
+               First Name: {{ rushee.firstName }}<br>
+            {% endif %}
+               Last Name: {{ rushee.lastName }}<br>
+               Hometown: {{ rushee.hometown }}<br>
+               High School: {{ rushee.highSchool }}<br>
+               Grade: {{ rushee.grade }}<br>
+      </div>
+      <span class="span5">
+         <h4>Horse of</h4>
+         {% if brothers %}
+            {% for brother in brothers %}
+               {{ brother.user.first_name }} {{ brother.user.last_name }}
+            {% endfor %}
+         {% endif %}
+         <!--
+         <h4>Brothers met</h4>
+         {% if brothersMet %}
+            {% for brother in brothersMet %}
+               {{ brother.user.first_name }} {{ brother.user.last_name }}
+            {% endfor %}
+         {% endif %}
+         <form id="brother_form" method="post" action="/rushranking/met/{{ rushee_id }}/">
+            {% csrf_token %}
+            <input type="submit" name="submit" value = "Met" class="btn btn-secondary btn-small"/>
+         </form>
+         -->
 
+      </span>
+   </div>
+   <div class="row-fluid">
+      <h4>Comments</h4>
       {% if comments %}
-      <ul>
          {% for comment in comments %}
-            <li>{{ comment.brother.first_name }} {{ comment.brother.last_name }}: {{ comment.text }}</li>
+            {{ comment.brother.first_name }} {{ comment.brother.last_name }} at {{ comment.time }}: {{ comment.text }}<br>
          {% endfor %}
-      </ul>
       {% else %}
-         The specified rushee {{ rushee.firstName }} {{ rushee.lastName }} has no comments
+         {{ rushee.firstName }} {{ rushee.lastName }} has no comments
       {% endif %}
       <br>
       <a href="/rushranking/add_comment/{{ rushee.id }}">Add Comment</a> <br>
-      <a href="/rushranking/edit_rushee/{{ rushee.id }}">Edit</a>
-   {% else %}
-      There is no rushee with id {{ rushee_id }}.
-   {% endif %}
+   </div>
+      {% else %}
+         There is no rushee with id {{ rushee_id }}.
+      {% endif %}
 {% endblock %}

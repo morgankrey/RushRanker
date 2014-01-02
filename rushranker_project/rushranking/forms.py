@@ -39,7 +39,24 @@ class UserProfileForm(forms.ModelForm):
       model = UserProfile
       fields = {}
 
+class BrotherForm(forms.ModelForm):
+   class Meta:
+      model=Brother
+      fields={}
+
 class VoteForm(forms.ModelForm):
    class Meta:
       model=Rushee
       fields={}
+
+class HorseForm(forms.ModelForm):
+   class Meta:
+      model=UserProfile
+      fields={}
+
+class MetForm(forms.ModelForm):
+   class Meta:
+      model=Rushee
+      fields={}
+
+

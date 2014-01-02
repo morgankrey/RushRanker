@@ -2,6 +2,30 @@ body{
 padding-top: 60px;
 padding-bottom: 40px;
 }
+#index-hero{
+   height:80px;
+}
+
+.hero-unit{
+   height:80px;
+}
+
+#game-hero{
+   height:80px;
+}
+#rushee-list-entry{
+   padding:0;
+   list-style-type: none;
+   margin:0;
+}
+#brothers_met{
+   float:left;
+}
+
+#rushee-row li:nth-child(3n){
+   margin: 10px;
+   padding:0;
+}
 
 .thumbnail{
    text-align: center;

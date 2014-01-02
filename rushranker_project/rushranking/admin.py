@@ -7,7 +7,10 @@ class rusheeAdmin(admin.ModelAdmin):
 class commentAdmin(admin.ModelAdmin):
    list_display = ('rushee','brother','text')
 
-admin.site.register(UserProfile)
+class userAdmin(admin.ModelAdmin):
+   list_display = ('user','horse')
+
+admin.site.register(UserProfile,userAdmin)
 admin.site.register(Brother)
 admin.site.register(Rushee,rusheeAdmin)
 admin.site.register(Comment,commentAdmin)

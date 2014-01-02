@@ -5,9 +5,8 @@
 {% block title%}Edit{% endblock %}
 
 {% block body_block %}
-<div class="hero-unit">
    <h1>Edit</h1>
-   <form id="rushee_form" method="post" action="/rushranking/edit_rushee/{{ rushee_id}}" enctype="multipart/form-data">
+   <form id="rushee_form" method="post" action="/rushranking/edit_rushee/{{ rushee_id }}" enctype="multipart/form-data">
 
          {% csrf_token %}
          {% for hidden in form.hidden_fields %}
@@ -23,5 +22,4 @@
 
          <input type="submit" name="submit" value = "Submit" />
    </form>
-</div>
 {% endblock %}
