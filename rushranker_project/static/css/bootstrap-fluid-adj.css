@@ -6,6 +6,10 @@ padding-bottom: 40px;
    height:60px;
 }
 
+#skip-button{
+   margin-left: 65px;
+}
+
 .hero-unit{
    font-size: 40px;
    height:60px;

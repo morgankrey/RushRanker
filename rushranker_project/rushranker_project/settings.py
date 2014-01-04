@@ -1,8 +1,8 @@
 # Django settings for rushranker_project project.
 
-#DEBUG = False
-DEBUG=True#for development
-#TEMPLATE_DEBUG = DEBUG
+DEBUG = False
+#DEBUG=True#for development
+TEMPLATE_DEBUG = DEBUG
 
 import os
 SETTINGS_DIR = os.path.dirname(__file__)
@@ -31,8 +31,8 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-#ALLOWED_HOSTS = ['mkrey.pythonanywhere.com']
-ALLOWED_HOSTS=[]
+ALLOWED_HOSTS = ['mkrey.pythonanywhere.com']#for production
+#ALLOWED_HOSTS=[]#for development
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
