@@ -3,15 +3,16 @@ padding-top: 60px;
 padding-bottom: 40px;
 }
 #index-hero{
-   height:80px;
+   height:60px;
 }
 
 .hero-unit{
-   height:80px;
+   font-size: 40px;
+   height:60px;
 }
 
 #game-hero{
-   height:80px;
+   height:60px;
 }
 #rushee-list-entry{
    padding:0;

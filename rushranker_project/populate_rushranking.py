@@ -1,7 +1,6 @@
 import os
 
 def populate():
-   test_rushee1 = add_Rushee("Cole","Koeniguer",''," ",''," ")
    test_user1 = add_User('mkrey','morgankrey@gmail.com','Morgan','Krey','Djgonzo1')
    test_profile1 = add_Profile(test_user1)
    test_brother1 = add_Brother(test_user1)
@@ -183,6 +182,7 @@ def populate():
    test_profile1 = add_Profile(test_user1)
    test_brother1 = add_Brother(test_user1)
 
+   add_Rushee("Cole","Koeniguer",''," ",''," ")
    add_Rushee('Matt','Harper','','','','')
    add_Rushee('Michael','Schaffer','','','','')
    add_Rushee('Andrew','Smith','','','','')
